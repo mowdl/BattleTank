@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "DrawDebugHelpers.h"
 
 #include "TankPlayerController.h"
 
@@ -69,7 +68,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 		collisionQueryParams
 	))
 	{
-		DrawDebugPoint(GetWorld(), hitResult.Location, 10, FColor::Red);
 		OutHitLocation = hitResult.Location;
 		return true;
 	}

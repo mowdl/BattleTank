@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "DrawDebugHelpers.h"
+
 #include "TankAimingComponent.h"
 
 // Sets default values for this component's properties
@@ -32,8 +34,41 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector hitLocation)
+void UTankAimingComponent::AimAt(FVector hitLocation, float LaunchSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at: %s"), *AActor::GetDebugName(GetOwner()),*hitLocation.ToString())
+	FVector LaunchVelocity;
+
+	if (UGameplayStatics::SuggestProjectileVelocity(
+		GetWorld(),
+		LaunchVelocity,
+		Barrel->GetComponentLocation(),
+		hitLocation,
+		LaunchSpeed,
+		false,
+		20.0f,
+		0.0f,
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		FCollisionResponseParams::DefaultResponseParam,
+		TArray<AActor*>(),
+		true
+	))
+	{
+		LaunchVelocity.Normalize();
+
+		// Draw debug helpers
+		DrawDebugLine(GetWorld(), Barrel->GetComponentLocation(), (Barrel->GetComponentLocation() + (LaunchVelocity * 200)), FColor::Red);
+
+		UE_LOG(LogTemp, Warning, TEXT("Leanch Velocity is: %s"), *LaunchVelocity.ToString())
+		return;
+	}
+	
+	UE_LOG(LogTemp, Error, TEXT("Leanch Velocity Failed"))
+
+
+}
+
+void UTankAimingComponent::SetBarrelRefrence(UStaticMeshComponent* BarrelToSet)
+{
+	Barrel = BarrelToSet;
 }
 

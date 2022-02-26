@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Kismet/GameplayStatics.h"
+
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
@@ -23,7 +25,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	
+	void AimAt(FVector hitLocation, float LaunchSpeed);
 
-		
-	void AimAt(FVector hitLocation);
+	void SetBarrelRefrence(UStaticMeshComponent* BarrelToSet);
+
+	UStaticMeshComponent* Barrel;
 };

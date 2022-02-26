@@ -32,4 +32,11 @@ public:
 
 	void AimAt(FVector hitLocation);
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetBarrelRefrence(UStaticMeshComponent* BarrelToSet);
+
+private:
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float LaunchSpeed = 100000; // 1 Km/s
+
 };
