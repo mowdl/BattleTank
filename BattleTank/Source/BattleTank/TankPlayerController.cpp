@@ -41,7 +41,10 @@ void ATankPlayerController::AimAtCrosshair()
 
 	FVector HitLocation;
 
-	bool isHit = GetSightRayHitLocation(HitLocation);
+	if (GetSightRayHitLocation(HitLocation))
+	{
+		GetControlledTank()->AimAt(HitLocation);
+	}
 
 }
 
@@ -66,7 +69,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 		collisionQueryParams
 	))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit location is: %s \n And actor is: %s"), *hitResult.Location.ToString(), *hitResult.GetActor()->GetFName().ToString())
 		DrawDebugPoint(GetWorld(), hitResult.Location, 10, FColor::Red);
 		OutHitLocation = hitResult.Location;
 		return true;

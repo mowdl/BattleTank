@@ -6,21 +6,27 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	ATank* Tank = GetPlayerTank();
-
-
-	if (Tank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player tank found is %s"), *ATank::GetDebugName(Tank))
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player Tank is null"))
-	}
-
 }
 
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	ATank* playerTank = GetPlayerTank();
+
+	if (playerTank)
+	{
+		// Aim at player
+		GetControlledTank()->AimAt(playerTank->GetActorLocation());
+		
+		// Move towrds player
+
+		// Fire if ready
+	}
+
+
+}
 
 ATank* ATankAIController::GetControlledTank() const
 {
