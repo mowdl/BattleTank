@@ -1,9 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "DrawDebugHelpers.h"
 
 #include "TankAimingComponent.h"
+
+#include "TankBarrel.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -15,16 +16,13 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
 	// ...
-	
 }
-
 
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -53,25 +51,22 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float LaunchSpeed)
 		FCollisionResponseParams::DefaultResponseParam,
 		TArray<AActor*>(),
 		false
-		))
+	))
 	{
-		
 		FVector AimDirection = LaunchVelocity.GetSafeNormal();
 
 		// Draw debug helpers
 		DrawDebugLine(GetWorld(), LaunchLocation, (LaunchLocation + (AimDirection * 800)), FColor::Red, false, -1.0f, (uint8)0U, 10);
-		
+
 		MoveBarrel(AimDirection);
 
 		return;
 	}
-	
+
 	UE_LOG(LogTemp, Error, TEXT("Leanch Velocity Failed"))
-
-
 }
 
-void UTankAimingComponent::SetBarrelRefrence(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelRefrence(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -81,13 +76,8 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	// difference between current barrel rotation and AimDirection
 	FRotator rotationDifference = AimDirection.Rotation() - Barrel->GetForwardVector().Rotation();
 
-	FRotator yawDifference = FRotator(0.0f, rotationDifference.Yaw, 0.0f);
-	FRotator pitchDifference = FRotator(rotationDifference.Pitch, 0.0f, 0.0f);
-
-	float yawRotationSpeed = 1.0f;
-
-	Barrel->AddLocalRotation(pitchDifference * (GetWorld()->GetDeltaSeconds() * yawRotationSpeed));
+	if (!Barrel) return;
+	Barrel->Elevate(rotationDifference.Pitch);
 
 	// move barrel the right amount this frame
 }
-

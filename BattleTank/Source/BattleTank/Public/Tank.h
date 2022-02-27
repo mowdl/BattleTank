@@ -24,8 +24,6 @@ protected:
 	UTankAimingComponent* tankAimingComponent = nullptr;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -33,7 +31,7 @@ public:
 	void AimAt(FVector hitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelRefrence(UStaticMeshComponent* BarrelToSet);
+	void SetBarrelRefrence(UTankBarrel* BarrelToSet);
 
 private:
 	UPROPERTY(EditAnywhere, Category = Firing)
