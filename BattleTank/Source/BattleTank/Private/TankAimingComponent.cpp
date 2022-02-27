@@ -38,27 +38,31 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float LaunchSpeed)
 {
 	FVector LaunchVelocity;
 
+	FVector LaunchLocation = Barrel->GetSocketLocation(FName("Projectile"));
+
 	if (UGameplayStatics::SuggestProjectileVelocity(
-		GetWorld(),
-		LaunchVelocity,
-		Barrel->GetComponentLocation(),
-		hitLocation,
-		LaunchSpeed,
+		this,								// context object
+		LaunchVelocity,						// OUT launch velocity
+		LaunchLocation,						// launch location
+		hitLocation,						// hit location
+		LaunchSpeed,						// launch speed
 		false,
-		20.0f,
 		0.0f,
-		ESuggestProjVelocityTraceOption::DoNotTrace,
+		0.0f,
+		ESuggestProjVelocityTraceOption::DoNotTrace,		// do not trace (Cant we trace here?)
 		FCollisionResponseParams::DefaultResponseParam,
 		TArray<AActor*>(),
-		true
-	))
+		false
+		))
 	{
-		LaunchVelocity.Normalize();
+		
+		FVector AimDirection = LaunchVelocity.GetSafeNormal();
 
 		// Draw debug helpers
-		DrawDebugLine(GetWorld(), Barrel->GetComponentLocation(), (Barrel->GetComponentLocation() + (LaunchVelocity * 200)), FColor::Red);
+		DrawDebugLine(GetWorld(), LaunchLocation, (LaunchLocation + (AimDirection * 800)), FColor::Red, false, -1.0f, (uint8)0U, 10);
+		
+		MoveBarrel(AimDirection);
 
-		UE_LOG(LogTemp, Warning, TEXT("Leanch Velocity is: %s"), *LaunchVelocity.ToString())
 		return;
 	}
 	
@@ -70,5 +74,20 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float LaunchSpeed)
 void UTankAimingComponent::SetBarrelRefrence(UStaticMeshComponent* BarrelToSet)
 {
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::MoveBarrel(FVector AimDirection)
+{
+	// difference between current barrel rotation and AimDirection
+	FRotator rotationDifference = AimDirection.Rotation() - Barrel->GetForwardVector().Rotation();
+
+	FRotator yawDifference = FRotator(0.0f, rotationDifference.Yaw, 0.0f);
+	FRotator pitchDifference = FRotator(rotationDifference.Pitch, 0.0f, 0.0f);
+
+	float yawRotationSpeed = 1.0f;
+
+	Barrel->AddLocalRotation(pitchDifference * (GetWorld()->GetDeltaSeconds() * yawRotationSpeed));
+
+	// move barrel the right amount this frame
 }
 
