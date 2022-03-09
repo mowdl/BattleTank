@@ -21,20 +21,24 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UTankAimingComponent* tankAimingComponent = nullptr;
+	/**
+	 * @brief Tank Aiming Component Pointer
+	 */
+	UTankAimingComponent* TankAimingComponent = nullptr;
 
 public:	
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void AimAt(FVector hitLocation);
+	void AimAt(FVector HitLocation) const;
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelRefrence(UTankBarrel* BarrelToSet);
+	void SetBarrelReference(UTankBarrel* BarrelToSet) const;
 
 private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 100000; // 1 Km/s
+
 
 };

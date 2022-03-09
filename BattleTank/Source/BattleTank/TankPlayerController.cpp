@@ -7,8 +7,8 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	ATank* Tank = GetControlledTank();
+
+	const ATank* Tank = GetControlledTank();
 
 
 	if (Tank)
@@ -25,7 +25,7 @@ void ATankPlayerController::BeginPlay()
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	AimAtCrosshair();
+	AimAtCrossHair();
 }
 
 
@@ -34,7 +34,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 	return Cast<ATank>(GetPawn());
 }
 
-void ATankPlayerController::AimAtCrosshair()
+void ATankPlayerController::AimAtCrossHair() const
 {
 	if(!GetControlledTank()) {return;}
 
@@ -51,24 +51,24 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 {
 	// get raytrace end location
 	FVector cameraLocation = PlayerCameraManager->GetCameraLocation();
-	FVector traceEnd = cameraLocation + (GetLookDirection() * lineTraceReach);
+	FVector traceEnd = cameraLocation + (GetLookDirection() * LineTraceReach);
 
 	// ignore the tank
-	FCollisionQueryParams collisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
-	collisionQueryParams.AddIgnoredActor(GetControlledTank());
+	FCollisionQueryParams CollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
+	CollisionQueryParams.AddIgnoredActor(GetControlledTank());
 	
 	// raytrace
-	FHitResult hitResult;
+	FHitResult HitResult;
 
 	if (GetWorld()->LineTraceSingleByChannel(
-		hitResult,
+		HitResult,
 		cameraLocation,
 		traceEnd,
 		ECollisionChannel::ECC_Visibility,
-		collisionQueryParams
+		CollisionQueryParams
 	))
 	{
-		OutHitLocation = hitResult.Location;
+		OutHitLocation = HitResult.Location;
 		return true;
 	}
 	
@@ -78,15 +78,15 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 
 FVector ATankPlayerController::GetLookDirection() const
 {
-	FVector lookDirection;
+	FVector LookDirection;
 
 	// get crosshair screen location
-	int32 viewportSizeX, viewportSizeY;
-	GetViewportSize(viewportSizeX, viewportSizeY);
-	FVector2D crosshairScreenLocation = { viewportSizeX * crossHairLocationX, viewportSizeY * crossHairLocationY };
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	FVector2D crosshairScreenLocation = { ViewportSizeX * CrossHairLocationX, ViewportSizeY * CrossHairLocationY };
 
 	// get look direction
-	FVector tmp;
-	DeprojectScreenPositionToWorld(crosshairScreenLocation.X, crosshairScreenLocation.Y, tmp, lookDirection);
-	return lookDirection;
+	FVector Tmp;
+	DeprojectScreenPositionToWorld(crosshairScreenLocation.X, crosshairScreenLocation.Y, Tmp, LookDirection);
+	return LookDirection;
 }

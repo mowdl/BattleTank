@@ -27,11 +27,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
-	void AimAt(FVector hitLocation, float LaunchSpeed);
+	void AimAt(FVector hitLocation, float LaunchSpeed) const;
 
 	void SetBarrelRefrence(UTankBarrel* BarrelToSet);
 
 	UTankBarrel* Barrel;
 
-	void MoveBarrel(FVector AimDirection);
+	void MoveBarrel(FVector AimDirection) const;
 };

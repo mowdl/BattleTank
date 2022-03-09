@@ -1,8 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "DrawDebugHelpers.h"
 
 #include "TankAimingComponent.h"
+
+#include "DrawDebugHelpers.h"
 
 #include "TankBarrel.h"
 
@@ -32,11 +33,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector hitLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector hitLocation, float LaunchSpeed) const
 {
 	FVector LaunchVelocity;
 
-	FVector LaunchLocation = Barrel->GetSocketLocation(FName("Projectile"));
+	const FVector LaunchLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
 	if (UGameplayStatics::SuggestProjectileVelocity(
 		this,								// context object
@@ -53,7 +54,7 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float LaunchSpeed)
 		false
 	))
 	{
-		FVector AimDirection = LaunchVelocity.GetSafeNormal();
+		const FVector AimDirection = LaunchVelocity.GetSafeNormal();
 
 		// Draw debug helpers
 		DrawDebugLine(GetWorld(), LaunchLocation, (LaunchLocation + (AimDirection * 800)), FColor::Red, false, -1.0f, (uint8)0U, 10);
@@ -71,10 +72,9 @@ void UTankAimingComponent::SetBarrelRefrence(UTankBarrel* BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
-void UTankAimingComponent::MoveBarrel(FVector AimDirection)
+void UTankAimingComponent::MoveBarrel(FVector AimDirection) const
 {
-	// difference between current barrel rotation and AimDirection
-	FRotator rotationDifference = AimDirection.Rotation() - Barrel->GetForwardVector().Rotation();
+	const FRotator rotationDifference = AimDirection.Rotation() - Barrel->GetForwardVector().Rotation();
 
 	if (!Barrel) return;
 	Barrel->Elevate(rotationDifference.Pitch);
