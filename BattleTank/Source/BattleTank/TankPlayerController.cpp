@@ -72,7 +72,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 		return true;
 	}
 	
-	OutHitLocation = FVector(0);
 	return false;
 }
 

@@ -36,6 +36,5 @@ void ATank::AimAt(const FVector HitLocation) const
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet) const
 {
 	TankAimingComponent->SetBarrelRefrence(BarrelToSet);
-	UE_LOG(LogTemp, Warning, TEXT("Hello Yasser"))
 }
 

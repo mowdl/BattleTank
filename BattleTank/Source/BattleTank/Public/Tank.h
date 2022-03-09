@@ -24,6 +24,7 @@ protected:
 	/**
 	 * @brief Tank Aiming Component Pointer
 	 */
+	// ReSharper disable once CppUE4ProbableMemoryIssuesWithUObject
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 public:	
@@ -33,6 +34,10 @@ public:
 
 	void AimAt(FVector HitLocation) const;
 
+	/**
+	 * @brief Sets the reference to TankBarrel in the TankAimingComponent
+	 * @param BarrelToSet Barrel to Set 
+	 */
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet) const;
 

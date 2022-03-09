@@ -61,7 +61,12 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float LaunchSpeed) const
 
 		MoveBarrel(AimDirection);
 
+		UE_LOG(LogTemp, Warning, TEXT("%f: Aim Direction: %s"), GetWorld()->GetTimeSeconds(), *AimDirection.ToString())
 		return;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("%f: Aim Direction Not Found"), GetWorld()->GetTimeSeconds())
 	}
 
 	UE_LOG(LogTemp, Error, TEXT("Leanch Velocity Failed"))
@@ -74,9 +79,14 @@ void UTankAimingComponent::SetBarrelRefrence(UTankBarrel* BarrelToSet)
 
 void UTankAimingComponent::MoveBarrel(FVector AimDirection) const
 {
+	if (!Barrel)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Barrel Reference is null"))
+		return;
+	}
+	
 	const FRotator rotationDifference = AimDirection.Rotation() - Barrel->GetForwardVector().Rotation();
 
-	if (!Barrel) return;
 	Barrel->Elevate(rotationDifference.Pitch);
 
 	// move barrel the right amount this frame
