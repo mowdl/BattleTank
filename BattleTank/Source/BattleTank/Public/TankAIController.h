@@ -2,8 +2,6 @@
 
 #pragma once
 
-#include "Tank.h"
-#include "../TankPlayerController.h"
 
 #include "CoreMinimal.h"
 #include "AIController.h"
