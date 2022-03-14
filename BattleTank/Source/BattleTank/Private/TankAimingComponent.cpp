@@ -6,6 +6,7 @@
 #include "DrawDebugHelpers.h"
 
 #include "TankBarrel.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -84,9 +85,10 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection) const
 		UE_LOG(LogTemp, Error, TEXT("Barrel Reference is null"))
 		return;
 	}
-	
-	const FRotator rotationDifference = AimDirection.Rotation() - Barrel->GetForwardVector().Rotation();
 
+	// Difference between barrel rotation and AimDirection
+	const FRotator rotationDifference = AimDirection.Rotation() - Barrel->GetForwardVector().Rotation();
+	
 	Barrel->Elevate(rotationDifference.Pitch);
 
 	// move barrel the right amount this frame
