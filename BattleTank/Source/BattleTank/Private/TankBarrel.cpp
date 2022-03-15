@@ -23,5 +23,4 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 	
 	SetRelativeRotation(FRotator(NewElevationPitch, 0, 0));
 	
-	UE_LOG(LogTemp, Warning, TEXT("%f: Elevate by %f"), GetWorld()->GetTimeSeconds(),RelativeSpeed)
 }

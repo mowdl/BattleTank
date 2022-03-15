@@ -63,7 +63,6 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float LaunchSpeed) const
 
 		MoveBarrel(AimDirection);
 
-		UE_LOG(LogTemp, Warning, TEXT("%f: Aim Direction: %s"), GetWorld()->GetTimeSeconds(), *AimDirection.ToString())
 		return;
 	}
 	else
