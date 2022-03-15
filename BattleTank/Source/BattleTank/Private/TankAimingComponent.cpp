@@ -6,6 +6,7 @@
 #include "DrawDebugHelpers.h"
 
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -13,7 +14,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -78,6 +79,11 @@ void UTankAimingComponent::SetBarrelRefrence(UTankBarrel* BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::MoveBarrel(FVector AimDirection) const
 {
 	if (!Barrel)
@@ -90,6 +96,7 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection) const
 	const FRotator rotationDifference = AimDirection.Rotation() - Barrel->GetForwardVector().Rotation();
 	
 	Barrel->Elevate(rotationDifference.Pitch);
+	Turret->Rotate(rotationDifference.Yaw);
 
 	// move barrel the right amount this frame
 }
