@@ -12,6 +12,7 @@ class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
 class AProjectile;
+class UProjectileMovementComponent;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -29,8 +30,8 @@ protected:
 	/**
 	 * @brief Tank Aiming Component Pointer
 	 */
-	// ReSharper disable once CppUE4ProbableMemoryIssuesWithUObject
 	UTankAimingComponent* TankAimingComponent = nullptr;
+
 
 public:	
 
