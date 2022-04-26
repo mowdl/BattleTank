@@ -6,17 +6,9 @@
 void UTankTurret::Rotate(float RelativeSpeed)
 {
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);
-	const float RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
+	auto RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
 
-	const float NewRotationYaw = GetRelativeRotation().Yaw + RotationChange;
+	auto NewRotationYaw = GetRelativeRotation().Yaw + RotationChange;
 	
-	try
-	{
-		SetRelativeRotation(FRotator(0, NewRotationYaw, 0));
-	}
-	catch (...)
-	{
-		UE_LOG(LogTemp, Error, TEXT("%s: Set Relative Rotation threw an execption"), *AActor::GetDebugName(GetOwner()))
-	}
-		
+	SetRelativeRotation(FRotator(0, NewRotationYaw, 0));
 }
