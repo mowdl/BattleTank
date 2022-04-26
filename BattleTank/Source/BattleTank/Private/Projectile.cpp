@@ -31,6 +31,7 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::LaunchProjectile(float LaunchSpeed)
 {
+	// Lauching with forward vector because the projectile is spawned with proper rotation (see ATank::Fire)
 	ProjectileMovementComponent->SetVelocityInLocalSpace(
 		FVector::ForwardVector * LaunchSpeed
 	);
