@@ -27,9 +27,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	/**
-	 * @brief Tank Aiming Component Pointer
-	 */
+	// Tank Aiming Component Pointer
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 
@@ -54,16 +52,18 @@ public:
 	void Fire();
 
 private:
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 5000; // 1 Km/s
+	
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	double FireReloadTimeSeconds = 3;
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	// local barrel reference for spawning projectile
 	UTankBarrel* Barrel = nullptr;
 
-	double FireReloadTimeSeconds = 3;
 
 	double LastFireTime = 0;
 
