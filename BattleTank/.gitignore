@@ -75,3 +75,4 @@ DerivedDataCache/*
 
 # Rider IDE
 /.idea/*
+/BattleTank.sln.DotSettings.user
